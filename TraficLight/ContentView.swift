@@ -31,7 +31,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Button {
-                    
+                    redColor.opacity(lightIsOn)
                 } label: {
                     Text("START")
                         .font(.caption)
