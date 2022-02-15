@@ -12,28 +12,40 @@ enum CurrentLight {
 }
 
 struct ContentView: View {
-    @State private var redColor = ColorCircle(color: .red)
-    @State private var yellowColor = ColorCircle(color: .yellow)
-    @State private var greenColor = ColorCircle(color: .green)
     @State private var currentLight = CurrentLight.red
-    
-    private var lightIsOn: CGFloat = 1
-    private var lightIsOff: CGFloat = 0.3
+    @State private var redOpscity = 0.3
+    @State private var yellowOpacity = 0.3
+    @State private var greenOpacity = 0.3
+    @State private var buttonTitle = "START"
     
     var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
             VStack(spacing: 30.0) {
-                redColor.opacity(lightIsOff)
-                yellowColor.opacity(lightIsOff)
-                greenColor.opacity(lightIsOff)
+                ColorCircle(color: .red, opacity: redOpscity)
+                ColorCircle(color: .yellow, opacity: yellowOpacity)
+                ColorCircle(color: .green, opacity: greenOpacity)
                 Spacer()
                 
                 Button {
-                    redColor.opacity(lightIsOn)
+                    buttonTitle = "RESUME"
+                    switch currentLight {
+                    case .red:
+                        greenOpacity = 0.3
+                        redOpscity = 1
+                        currentLight = .yellow
+                    case .yellow:
+                        redOpscity = 0.3
+                        yellowOpacity = 1
+                        currentLight = .green
+                    case .green:
+                        greenOpacity = 1
+                        yellowOpacity = 0.3
+                        currentLight = .red
+                    }
                 } label: {
-                    Text("START")
+                    Text(buttonTitle)
                         .font(.caption)
                         .bold()
                         .foregroundColor(.white)
@@ -46,7 +58,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-           
+            .padding()
         }
     }
 }
